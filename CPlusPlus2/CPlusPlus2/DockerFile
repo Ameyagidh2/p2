@@ -1,0 +1,26 @@
+# Use the official Microsoft Visual C++ (MSVC) as the base image
+FROM mcr.microsoft.com/vscode/devcontainers/cpp:0-ubuntu-20.04
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the necessary files into the container
+COPY CPlusPlus2/ExternalDependencies /app/ExternalDependencies
+COPY CPlusPlus2/References /app/References
+COPY CPlusPlus2/HeaderFiles /app/HeaderFiles
+COPY CPlusPlus2/SourceFiles /app/SourceFiles
+COPY CPlusPlus2/delsys.txt /app/delsys.txt
+
+# Install the necessary dependencies
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        protobuf-compiler \
+        libprotobuf-dev \
+        libasio-dev
+
+# Compile the program
+RUN cd /app/SourceFiles && \
+    g++ -std=c++11 CPlusPlus2.cpp -o CPlusPlus2 -I../HeaderFiles -L../ExternalDependencies -lprotobuf -lboost_system
+
+# Set the entry point
+ENTRYPOINT ["/app/SourceFiles/CPlusPlus2"]

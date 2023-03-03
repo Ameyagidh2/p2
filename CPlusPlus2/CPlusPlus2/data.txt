@@ -1,0 +1,7 @@
+This is some data that will be appended to the file
+
+	Jaohn DoeÊ_adoe@example.com"
+555-4321
+
+	Jaohn DoeÊ_adoe@example.com"
+555-4321
